@@ -1,4 +1,4 @@
-package fucan.entity.response;
+package hk.hku.cs.aacloud.entity.response;
 
 public class CommonResponse {
     private int errcode;

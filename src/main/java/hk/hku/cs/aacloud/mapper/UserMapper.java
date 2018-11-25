@@ -1,7 +1,6 @@
 package hk.hku.cs.aacloud.mapper;
 
-import fucan.entity.mapping.Session;
-import fucan.entity.mapping.User;
+import hk.hku.cs.aacloud.entity.mapping.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -21,11 +20,5 @@ public interface UserMapper {
             @Result(property = "password",column = "password")
     })
     List<User> getUserByIdPassword(@Param("id") String id, @Param("password") String password);
-
-    //2.根据user_id与time，为登录用户建立session，并自动填充session的自增id
-    @Insert(" INSERT INTO `session`(user_id, time)" +
-            " VALUES (#{userId}, #{time})")
-    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
-    void createSessionById(Session session);
 
 }
