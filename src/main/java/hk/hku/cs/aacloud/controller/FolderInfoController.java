@@ -21,6 +21,14 @@ public class FolderInfoController {
     public String getFolderInfoByRelativePath(@RequestParam(value="relativePath") String relativePath,
                                                 @RequestParam(value="id") String id,
                                                 HttpServletRequest request) {
+        //Construct Response
+        JSONObject jsonRet;
+
+        //id cannot be empty
+        if (id.length() == 0) {
+            jsonRet = JSONObject.fromObject(new FolderInfoResponse(4, "Id Cannot Be Empty", new ArrayList<>()));
+            return jsonRet.toString();
+        }
 
         //Construct absolute root path
         String absoluteRootPath = request.getRealPath("/");
@@ -35,9 +43,6 @@ public class FolderInfoController {
 
         //Construct absolute path from RelativePath param
         String absolutePath = absoluteRootPath + relativePath;
-
-        //Construct Response
-        JSONObject jsonRet;
 
         //Make sure the absolute file exists
         File absoluteFile = new File(absolutePath);
@@ -65,7 +70,7 @@ public class FolderInfoController {
                 continue;
             FileInfo fileInfo = new FileInfo(file.getName(),
                     file.getAbsolutePath().substring(absoluteRootPath.length()),
-                    true);
+                    1);
             fileInfoList.add(fileInfo);
         }
         // 3. fill list with non-folder files
@@ -74,7 +79,7 @@ public class FolderInfoController {
                 continue;
             FileInfo fileInfo = new FileInfo(file.getName(),
                     file.getAbsolutePath().substring(absoluteRootPath.length()),
-                    false);
+                    0);
             fileInfoList.add(fileInfo);
         }
         // 4. Construct JSONOnject

@@ -4,14 +4,14 @@ public class FileInfo {
 
     private String name;
     private String relativePath;
-    private boolean isDir;
+    private int dir;
 
     public FileInfo() {}
 
-    public FileInfo(String name, String relativePath, boolean isDir) {
+    public FileInfo(String name, String relativePath, int dir) {
         this.name = name;
         this.relativePath = relativePath;
-        this.isDir = isDir;
+        this.dir = dir;
     }
 
     public String getName() {
@@ -30,11 +30,11 @@ public class FileInfo {
         this.relativePath = relativePath;
     }
 
-    public boolean isDir() {
-        return isDir;
+    public int getDir() {
+        return dir;
     }
 
-    public void setDir(boolean dir) {
-        isDir = dir;
+    public void setDir(int dir) {
+        this.dir = dir;
     }
 }
