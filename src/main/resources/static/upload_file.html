@@ -5,11 +5,9 @@
     <title>aacloud upload file</title>
 </head>
 <script src="jquery.min.js"></script>
-<body>
-<div>
-    <input id="fileToUpload" type ="file"/>
+<body style="text-align: center">
+    <input id="fileToUpload" type ="file" style="margin-top: 5em"/>
     <button onclick="doUploadFile()">Upload</button>
-</div>
 <script>
     function doUploadFile() {
 
@@ -22,9 +20,7 @@
 
         //init for ajax file upload
         var file = files[0];
-        var id = getUrlParam("id");
-        var relativePath = getUrlParam("relativePath");
-        var url = "upload?"+"id=" + id + "&relativePath=" + relativePath;
+        var url = "upload" + document.location.search;
         var formData = new FormData();
         formData.append('file',file);
 
@@ -40,25 +36,13 @@
                 if (ret.errcode === 0) {
                     alert("upload successful");
                 } else {
-                    alert("upload failed: "+data.errmsg);
+                    alert("upload failed: "+ ret.errmsg);
                 }
-
             },
             error:function(e) {
                 alert("upload failed");
             }
         });
-    }
-
-    /**
-     * function to get url parameters
-     * @param name
-     * @returns {null}
-     */
-    function getUrlParam(name) {
-        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-        var r = window.location.search.substr(1).match(reg);  //match parameter name
-        if (r != null) return unescape(r[2]); return null;
     }
 </script>
 </body>

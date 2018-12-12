@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
 
 @RestController
 public class UploadController {
@@ -44,6 +43,12 @@ public class UploadController {
         String absoluteRootPath = request.getRealPath("/");
         absoluteRootPath += "WEB-INF\\classes\\static\\data\\disk\\";
         absoluteRootPath += id + "\\files\\";
+
+        //relativepath
+//        relativePath = URLDecoder.decode(relativePath);
+        if (relativePath.length() != 0) {
+            relativePath = relativePath + "\\";
+        }
 
         try {
             // Get the file and save it somewhere
