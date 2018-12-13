@@ -44,6 +44,12 @@ public class UploadController {
         absoluteRootPath += "WEB-INF\\classes\\static\\data\\disk\\";
         absoluteRootPath += id + "\\files\\";
 
+        //Make sure the root directory exists
+        File rootDir = new File(absoluteRootPath);
+        if (!rootDir.exists()) {
+            rootDir.mkdirs();
+        }
+
         //relativepath
 //        relativePath = URLDecoder.decode(relativePath);
         if (relativePath.length() != 0) {

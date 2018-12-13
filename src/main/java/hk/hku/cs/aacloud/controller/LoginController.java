@@ -19,21 +19,57 @@ public class LoginController {
         this.userService = userService;
     }
 
-    //1.登录
+    //1. login
     @RequestMapping("/login")
     @CrossOrigin
     public String login(@RequestParam(value="id") String id, @RequestParam(value="password") String password){
 
         JSONObject jsonRet;
 
-        //登陆失败
+        //login failed
         if (!userService.login(id, password)) {
             jsonRet = JSONObject.fromObject(new CommonResponse(1,"Authentication Failed"));
             return jsonRet.toString();
         }
 
-        //登陆成功
+        //login successful
         jsonRet = JSONObject.fromObject(new CommonResponse(0,"Login Successful"));
+        return jsonRet.toString();
+    }
+
+    //2. register
+    @RequestMapping("/register")
+    @CrossOrigin
+    public String register(@RequestParam(value="id") String id, @RequestParam(value="password") String password){
+
+        JSONObject jsonRet;
+
+        //register failed
+        if (!userService.register(id, password)) {
+            jsonRet = JSONObject.fromObject(new CommonResponse(1,"Register Failed"));
+            return jsonRet.toString();
+        }
+
+        //register successful
+        jsonRet = JSONObject.fromObject(new CommonResponse(0,"Register Successful"));
+        return jsonRet.toString();
+    }
+
+    //3. update user password
+    @RequestMapping("/update_password")
+    @CrossOrigin
+    public String updatePassword(@RequestParam(value="id") String id, @RequestParam(value="password") String password){
+
+        JSONObject jsonRet;
+
+        //update password failed
+        if (!userService.update(id, password)) {
+            jsonRet = JSONObject.fromObject(new CommonResponse(1,"Update Password Failed"));
+            return jsonRet.toString();
+        }
+
+        //update password successful
+        jsonRet = JSONObject.fromObject(new CommonResponse(0,"Update Password Successful"));
         return jsonRet.toString();
     }
 
