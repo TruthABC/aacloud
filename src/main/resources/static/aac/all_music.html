@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AA Cloud - All Music</title>
+    <script src="../js/jquery.min.js"></script>
+</head>
+<body>
+    <script>
+        //get "GET" parameter value of name "name"
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+
+        //login url
+        var urlPrefix = document.location.protocol + "//" + document.location.host;
+        var aacRoot = urlPrefix + "/aacloud";
+        var aacLoginController = aacRoot + "/login";
+        var aacLoginRequestUrl = aacLoginController + document.location.search;
+
+        //all music url
+        var aacGetAllMP3InfoById = aacRoot + "/getAllMP3InfoById";
+        var aacGetAllMP3InfoByIdUrl = aacGetAllMP3InfoById + "?id=" + getQueryString("id");
+
+        //on page loaded
+        $(document).ready(function(e) {
+            $.ajax({
+                url: aacLoginRequestUrl,
+                type: "GET",
+                success: function(data) { onAACLoginResponse(data); },
+                error: function(e) {
+                    alert("Login Request Failed.(Server Connection Error)");
+                }
+            });
+        });
+
+        //call back after login request
+        function onAACLoginResponse(json) {
+            var data = JSON.parse(json);
+            //check login status
+            if (data.errcode != 0) {
+                alert(data.errcode + "" + data.errmsg);
+                return;
+            }
+            $("#info").html("Login Successful. Loading Music File Info...");
+            $.ajax({
+                url: aacGetAllMP3InfoByIdUrl,
+                type: "GET",
+                success: function(data) { onAACMusicResponse(data); },
+                error: function(e) {
+                    alert("Music Request Failed.(Server Connection Error)");
+                }
+            });
+        }
+
+        function onAACMusicResponse(json) {
+            var data = JSON.parse(json);
+            //check login status
+            if (data.errcode != 0) {
+                alert(data.errcode + "" + data.errmsg);
+                return;
+            }
+            $("#info").html("Server Music Files are:");
+            for (var i = 0; i < data.fileInfoList.length; i++) {
+                $("body").append("<p>" + data.fileInfoList[i].relativePath + "</p>");
+            }
+        }
+    </script>
+    <p id="info">Getting login, Please wait...</p>
+</body>
+</html>

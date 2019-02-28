@@ -1,3 +1,7 @@
+# Some static files
+*.mp3
+*.flac
+
 # Created by .ignore support plugin (hsz.mobi)
 ### Maven template
 target/
