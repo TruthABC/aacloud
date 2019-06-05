@@ -27,8 +27,13 @@ public class LoginController {
         JSONObject jsonRet;
 
         //login failed
-        if (!userService.login(id, password)) {
-            jsonRet = JSONObject.fromObject(new CommonResponse(1,"Authentication Failed"));
+        jsonRet = JSONObject.fromObject(new CommonResponse(1,"Authentication Failed"));
+        try {
+            if (!userService.login(id, password)) {
+                return jsonRet.toString();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             return jsonRet.toString();
         }
 
@@ -45,8 +50,11 @@ public class LoginController {
         JSONObject jsonRet;
 
         //register failed
-        if (!userService.register(id, password)) {
-            jsonRet = JSONObject.fromObject(new CommonResponse(1,"Register Failed"));
+        jsonRet = JSONObject.fromObject(new CommonResponse(1,"Register Failed"));
+        try {
+            userService.register(id, password);
+        } catch (Exception e) {
+            e.printStackTrace();
             return jsonRet.toString();
         }
 
@@ -63,8 +71,11 @@ public class LoginController {
         JSONObject jsonRet;
 
         //update password failed
-        if (!userService.update(id, password)) {
-            jsonRet = JSONObject.fromObject(new CommonResponse(1,"Update Password Failed"));
+        jsonRet = JSONObject.fromObject(new CommonResponse(1,"Update Password Failed"));
+        try {
+            userService.updatePassword(id, password);
+        } catch (Exception e) {
+            e.printStackTrace();
             return jsonRet.toString();
         }
 

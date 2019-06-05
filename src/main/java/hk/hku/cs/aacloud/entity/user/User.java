@@ -1,4 +1,4 @@
-package hk.hku.cs.aacloud.entity.mapping;
+package hk.hku.cs.aacloud.entity.user;
 
 public class User {
 

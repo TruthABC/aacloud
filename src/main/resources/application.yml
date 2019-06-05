@@ -1,8 +1,0 @@
-spring:
-  datasource:
-    driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://123.207.6.234:3306/aacloud?useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
-    username: root
-    password: root
-    platform: mysql
-    initialize: false
