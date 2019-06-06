@@ -22,16 +22,25 @@ public class UserProcessor {
 
     public String readPasswordById(String id) throws Exception {
         File file = new File(USER_SETTING_ROOT + "/" + id + "/" + PASSWORD_JSON);
-        Scanner scanner = Global.getFileScanner(file);
-        String jsonStr = "";
-        while (scanner.hasNextLine()) {
-            jsonStr += scanner.nextLine() +"\n";
+        Scanner scanner = null;
+        String password = null;
+        try {
+            scanner = Global.getFileScanner(file);
+            String jsonStr = "";
+            while (scanner.hasNextLine()) {
+                jsonStr += scanner.nextLine() +"\n";
+            }
+            JsonParser parser = new JsonParser();
+            JsonObject jsonObject = parser.parse(jsonStr).getAsJsonObject();
+            password = jsonObject.get("password").getAsString();
+            scanner.close();
+        } catch (Exception e) {
+            if (scanner != null) {
+                scanner.close();
+            }
+            throw e;
         }
-        JsonParser parser = new JsonParser();
-        JsonObject jsonObject = parser.parse(jsonStr).getAsJsonObject();
-        String password = jsonObject.get("password").getAsString();
 
-        scanner.close();
         return password;
     }
 
@@ -47,12 +56,19 @@ public class UserProcessor {
             file.delete();
             file.createNewFile();
         }
-        PrintStream out = Global.getFilePrintStream(file);
-
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("id", id);
-        jsonObject.addProperty("password", password);
-        out.print(jsonObject.toString());
-        out.close();
+        PrintStream out = null;
+        try {
+            out = Global.getFilePrintStream(file);
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("id", id);
+            jsonObject.addProperty("password", password);
+            out.print(jsonObject.toString());
+            out.close();
+        } catch (Exception e) {
+            if (out != null) {
+                out.close();
+            }
+            throw e;
+        }
     }
 }
