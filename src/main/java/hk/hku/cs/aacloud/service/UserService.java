@@ -29,8 +29,12 @@ public class UserService {
         userProcessor.writePasswordById(id, password);
     }
 
-    //3. update user (password)
+    //3. update user password
     public void updatePassword(String id, String password) throws Exception {
+        boolean existed = userProcessor.checkExistById(id);
+        if (!existed) {
+            throw new Exception("User Id Not Existed.");
+        }
         userProcessor.writePasswordById(id, password);
     }
 

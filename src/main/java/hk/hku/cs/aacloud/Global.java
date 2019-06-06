@@ -12,11 +12,13 @@ public class Global {
 //    public static final String DATA_ROOT_URL = "http://123.207.6.234:8080/aacloud/data";
 //    public static final String DISK_ROOT_URL = "http://123.207.6.234:8080/aacloud/data/disk";//"/?user?/files"
 
-    public static void deleteAndMkdirs(File dir) {
+    public static void deleteAndMkdirs(File dir) throws Exception {
         if (dir.exists()) {
             deleteDir(dir);
         }
-        dir.mkdirs();
+        if (!dir.mkdirs()) {
+            throw new Exception("Cannot make such dirs: " + dir.getPath());
+        }
     }
 
     public static void deleteDir(File dir) {

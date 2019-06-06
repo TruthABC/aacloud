@@ -55,6 +55,9 @@ public class LoginController {
             userService.register(id, password);
         } catch (Exception e) {
             e.printStackTrace();
+            if (e.getMessage().equals("User Id Existed.")) {
+                jsonRet = JSONObject.fromObject(new CommonResponse(2,"Register Failed, User Id Existed."));
+            }
             return jsonRet.toString();
         }
 
